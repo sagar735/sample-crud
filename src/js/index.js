@@ -123,39 +123,5 @@
 
      //-------------------------------------------------- handling error page-----------------------------------------------
 
-     //   var jsondata2 = (function () {
-     //       var json = null;
-     //       $.ajax({
-     //           type: 'GET',
-     //           async: false,
-     //           url: '/{p*}',
-     //           dataType: 'json',
-     //           'success': function (data) {
-     //               json = data;
-     //               console.log('welcome')
-     //           },
-     //           error: function (data) {
-     //               //alert('error in loading the data');
-     //               errorHandle(data);
-     //           },
-     //       });
-     //       return json;
-     //   })();
-
-     //   function errorHandle(data) {
-
-     //       console.log('welcome to error hanlde')
-     //       $('.page1').hide();
-     //       $('.page2').hide();
-     //       $('.page3').hide();
-     //       $('.page4').show();
-     //       route.goToError();
-     //       console.log(data)
-     //       $.each(data, function (i, project) {
-     //           $('#errorCode').html(project.statusCode);
-     //           $('#errorType').html(project.error);
-
-     //       });
-
-     //   }
+    
  });
