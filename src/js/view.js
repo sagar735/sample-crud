@@ -38,7 +38,7 @@
      $quickAdd.show(350);
 
  }
- //DOM manipulation
+
  export function showPartTwo() {
      $('.page1').hide();
      $('.page2').show();
@@ -47,7 +47,6 @@
 
  }
 
- //DOM manipulation
  export function showPartOne() {
      $('.page2').hide();
      $('.page1').show();
@@ -56,10 +55,15 @@
 
  }
 
- //DOM manipulation
-
  export function showPartThree() {
      $('.page1').hide();
      $('.page2').hide();
      $('.page3').show();
+ }
+
+ export function showPartFour() {
+     $('.page1').hide();
+     $('.page2').hide();
+     $('.page3').hide();
+     $('.page4').show();
  }

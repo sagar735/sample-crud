@@ -1,17 +1,33 @@
- import {
-     jsondata
- } from './index2.js';
+ import * as data from './index2.js';
  import * as view from './view.js';
  import * as route from './router.js';
- import * as detail from './projectDetails.js'
+ 
 
  $(function () {
      var $quickAdd = $('#quickAdd');
      var $projectNameInput = $('#projectNameInput');
      var $projectListBox = $('#projectListBox');
-     var jsonProjectlist = jsondata;
+     var jsonProjectlist = data.jsondata;
+     var jsondata1 = data.jsonFiles();
 
-     route.listen();
+     var currentStatus = route.listen(callback);
+
+     function callback() {
+         data.jsonFiles();
+         view.appendPojectDetails(jsondata1);
+     }
+
+     if (currentStatus === 'one') {
+         view.showPartOne();
+     } else if (currentStatus === 'two') {
+         view.showPartTwo();
+     } else if (currentStatus === 'three') {
+         view.showPartThree();
+     } else if (currentStatus === 'error') {
+
+         view.showPartFour();
+     }
+
      //------------------------------------------Getting project list and Dashboard page-------------------------
      view.appendList(jsonProjectlist)
          // --------------------------------------delete functionality-----------------------------------------------
@@ -33,9 +49,9 @@
              if (this.checked === true) {
                  var b = $(this).parent()
                  var c = $('li').index(b)
-                 jsondata.splice(c, 1);
+                 jsonProjectlist.splice(c, 1);
                  view.hideDelete();
-                 view.appendList(jsondata);
+                 view.appendList(jsonProjectlist);
              }
          });
      });
@@ -49,11 +65,10 @@
          goToPageDetails($buttonName);
      }
 
-     //DOM manipulation
      function goToPageDetails(buttonName) {
          view.showPartThree();
-               route.goToProjectDetails(buttonName);
-         detail.jsonFiles();
+         route.goToProjectDetails(buttonName);
+         view.appendPojectDetails(data.jsonFiles())
      }
      //---------------------------------------------------project detail page-------------------------------------------
      var $back = $('#backToHomePage');
@@ -70,8 +85,8 @@
              Name: $projectNameInput.val(),
              Rating: undefined
          };
-         jsondata.push(project);
-         view.appendList(jsondata);
+         jsonProjectlist.push(project);
+         view.appendList(jsonProjectlist);
      });
      //-----------------------------------when add button is clicked------------------------------------------------------
 
@@ -79,7 +94,6 @@
 
      $add.on('click', showPageTwo);
 
-   
      function showPageTwo() {
          view.showPartTwo();
          route.goToAdd();
@@ -103,8 +117,8 @@
              Name: $projectName.val(),
              Rating: $rating.val()
          };
-         jsondata.push(newProject);
-         view.appendList(jsondata);
+         jsonProjectlist.push(newProject);
+         view.appendList(jsonProjectlist);
          alert('project created successfully ');
          showPageOne();
      });
@@ -113,8 +127,5 @@
      //-------------------------------------------------Error Page---------------------------------------------------------
      var $homePage = $('#homePage');
      $homePage.on('click', showPageOne);
-
-     //-------------------------------------------------- handling error page-----------------------------------------------
-
 
  });

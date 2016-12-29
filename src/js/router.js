@@ -1,7 +1,9 @@
-import * as detail from './projectDetails.js'
-
 function getCurrentState() {
-    return window.location.hash.split('#')[1];
+    if (window.location.href.split('/')[3] === '') {
+        return window.location.href.split('/')[3];
+    } else {
+        return window.location.hash.split('#')[1];
+    }
 }
 
 function addHash(path) {
@@ -17,8 +19,6 @@ function removeHash() {
 
 export function goToProjectDetails($buttonName) {
     window.location.href = 'http://localhost:8080/#/details/' + $buttonName;
-    //window.location.href.split('/')[5] = $buttonName;
-
 }
 export function goToError() {
     addHash('error');
@@ -32,65 +32,39 @@ export function gotToDashboard() {
     removeHash();
 }
 
-function showPartTwo() {
-    $('.page1').hide();
-    $('.page2').show();
-    $('.page3').hide();
-    $('.page4').hide();
-}
 
-function showPartOne() {
-    $('.page2').hide();
-    $('.page1').show();
-    $('.page3').hide();
-    $('.page4').hide();
-    gotToDashboard();
-}
-
-
-export function listen() {
+export function listen(callback) {
     var current = getCurrentState();
+    var currentStatus;
     if (current === '/add') {
-        showPartTwo();
+        currentStatus = 'two';
     } else if (current === '/dashboard') {
-        showPartOne();
+        currentStatus = 'one';
     } else if (current === '/') {
-        showPartOne();
+        currentStatus = 'one';
     } else if (current === '') {
-        showPartOne();
+        currentStatus = 'one';
     } else if (current === '/details/1') {
-        goToPage();
-        detail.jsonFiles();
+        currentStatus = 'three';
+        callback();
     } else if (current === '/details/2') {
-        goToPage();
-        detail.jsonFiles();
+        currentStatus = 'three';
+        callback();
     } else if (current === '/details/3') {
-        goToPage();
-        detail.jsonFiles();
+        currentStatus = 'three';
+        callback();
     } else if (current === '/details/4') {
-        goToPage();
-        detail.jsonFiles();
+        currentStatus = 'three';
+        callback();
     } else if (current === '/details/5') {
-        goToPage();
-        detail.jsonFiles();
+        currentStatus = 'three';
+        callback();
     } else {
-        showError();
+        currentStatus = 'error';
+        goToError();
     }
-
+    return currentStatus;
     setTimeout(listen, 2000);
 };
 
-function goToPage() {
-    $('.page2').hide();
-    $('.page1').hide();
-    $('.page3').show();
 
-}
-
-function showError() {
-    $('.page2').hide();
-    $('.page1').hide();
-    $('.page3').hide();
-    $('.page4').show();
-    goToError();
-}
