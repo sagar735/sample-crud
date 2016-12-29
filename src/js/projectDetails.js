@@ -11,35 +11,40 @@ export function jsonFiles() {
 
     if (currentLocation === 'details') {
         var jsondata1 = (function () {
+            var json=null;
             $.ajax({
                 type: 'GET',
                 async: false,
                 url: '/details/' + currentLocation2,
                 dataType: 'json',
                 'success': function (data) {
+                    json=data;
                     appendPojectDetails(data);
                 },
                 error: function () {
                     alert('error in loading the data');
                 },
             });
+            return json;
             
         })();
     } else {
         var jsondata2 = (function () {
+            var json=null;
             $.ajax({
                 type: 'GET',
                 async: false,
                 url: '/details/' + currentLocation,
                 dataType: 'json',
                 'success': function (data) {
+                    json=data;
                     appendPojectDetails(data);
                 },
                 error: function () {
                     alert('error in loading the data');
                 },
             });
-          //  return json;
+           return json;
         })();
     }
 }

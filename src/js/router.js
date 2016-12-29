@@ -1,7 +1,7 @@
 import * as detail from './projectDetails.js'
 
 function getCurrentState() {
-    return window.location.hash;
+    return window.location.hash.split('#')[1];
 }
 
 function addHash(path) {
@@ -10,15 +10,15 @@ function addHash(path) {
 }
 
 function removeHash() {
-    if (window.location.hash === 'add') {
-        window.location.hash = window.location.hash.split('#')[0];
-    }
+
+    window.location.hash = window.location.hash.split('#')[0];
     window.location.hash = '/dashboard';
 }
 
 export function goToProjectDetails($buttonName) {
-    //window.location.href = 'http://localhost:8080/#/details/' + $buttonName;
-    window.location.href.split('/')[5] = $buttonName;
+    window.location.href = 'http://localhost:8080/#/details/' + $buttonName;
+    //window.location.href.split('/')[5] = $buttonName;
+
 }
 export function goToError() {
     addHash('error');
@@ -50,34 +50,34 @@ function showPartOne() {
 
 export function listen() {
     var current = getCurrentState();
-    if (current === '#/add') {
+    if (current === '/add') {
         showPartTwo();
-    } else if (current === '#/dashboard') {
+    } else if (current === '/dashboard') {
         showPartOne();
-    } else if (current === '#/') {
+    } else if (current === '/') {
         showPartOne();
     } else if (current === '') {
         showPartOne();
-    } else if (current === '#/details/1') {
+    } else if (current === '/details/1') {
         goToPage();
         detail.jsonFiles();
-    } else if (current === '#/details/2') {
+    } else if (current === '/details/2') {
         goToPage();
         detail.jsonFiles();
-    } else if (current === '#/details/3') {
+    } else if (current === '/details/3') {
         goToPage();
         detail.jsonFiles();
-    } else if (current === '#/details/4') {
+    } else if (current === '/details/4') {
         goToPage();
         detail.jsonFiles();
-    } else if (current === '#/details/5') {
+    } else if (current === '/details/5') {
         goToPage();
         detail.jsonFiles();
     } else {
         showError();
     }
 
-    setTimeout(listen, 10);
+    setTimeout(listen, 2000);
 };
 
 function goToPage() {

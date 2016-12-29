@@ -49,12 +49,10 @@
          goToPageDetails($buttonName);
      }
 
+     //DOM manipulation
      function goToPageDetails(buttonName) {
-         $('.page1').hide();
-         $('.page2').hide();
-         $('.page3').show();
-
-         route.goToProjectDetails(buttonName);
+         view.showPartThree();
+               route.goToProjectDetails(buttonName);
          detail.jsonFiles();
      }
      //---------------------------------------------------project detail page-------------------------------------------
@@ -63,7 +61,7 @@
      $($back).on('click', goToHomePage)
 
      function goToHomePage() {
-         showPartOne();
+         showPageOne();
      }
      //---------------------------------------------quick add project---------------------------------------------------- 
      $quickAdd.on('click', function () {
@@ -79,21 +77,16 @@
 
      var $add = $('#add');
 
-     $add.on('click', showPartTwo);
+     $add.on('click', showPageTwo);
 
-     function showPartTwo() {
-         $('.page1').hide();
-         $('.page2').show();
-         $('.page3').hide();
-         $('.page4').hide();
+   
+     function showPageTwo() {
+         view.showPartTwo();
          route.goToAdd();
      }
 
-     function showPartOne() {
-         $('.page2').hide();
-         $('.page1').show();
-         $('.page3').hide();
-         $('.page4').hide();
+     function showPageOne() {
+         view.showPartOne();
          route.gotToDashboard();
      }
      //--------------------------------------------------add button page----------------------------------------------------
@@ -113,15 +106,15 @@
          jsondata.push(newProject);
          view.appendList(jsondata);
          alert('project created successfully ');
-         showPartOne();
+         showPageOne();
      });
 
-     $cancelbtn.on('click', showPartOne);
+     $cancelbtn.on('click', showPageOne);
      //-------------------------------------------------Error Page---------------------------------------------------------
      var $homePage = $('#homePage');
-     $homePage.on('click', showPartOne);
+     $homePage.on('click', showPageOne);
 
      //-------------------------------------------------- handling error page-----------------------------------------------
 
-    
+
  });

@@ -14,7 +14,7 @@
      });
  }
 
-  export function appendPojectDetails(data) {
+ export function appendPojectDetails(data) {
      $.each(data, function (i, project) {
          $projectDetails.empty();
          $projectDetails.append('<h3>Project Name: ' + project.Name + '</h3>');
@@ -37,4 +37,29 @@
      $add.show(350);
      $quickAdd.show(350);
 
+ }
+ //DOM manipulation
+ export function showPartTwo() {
+     $('.page1').hide();
+     $('.page2').show();
+     $('.page3').hide();
+     $('.page4').hide();
+
+ }
+
+ //DOM manipulation
+ export function showPartOne() {
+     $('.page2').hide();
+     $('.page1').show();
+     $('.page3').hide();
+     $('.page4').hide();
+
+ }
+
+ //DOM manipulation
+
+ export function showPartThree() {
+     $('.page1').hide();
+     $('.page2').hide();
+     $('.page3').show();
  }
