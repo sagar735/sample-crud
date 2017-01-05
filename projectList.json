@@ -1,21 +1,21 @@
  [{
-        "ProjectID": 1,
-        "Name": "ABC",
-        "Rating": 1
+        "projectId": 1,
+        "name": "ABC",
+        "rating": 1
     }, {
-        "ProjectID": 2,
-        "Name": "DEF",
-        "Rating": 1
+        "projectId": 2,
+        "name": "DEF",
+        "rating": 1
     }, {
-        "ProjectID": 3,
-        "Name": "HIJ",
-        "Rating": 1
+        "projectId": 3,
+        "name": "HIJ",
+        "rating": 1
     }, {
-        "ProjectID": 4,
-        "Name": "KLM",
-        "Rating": 1
+        "projectId": 4,
+        "name": "KLM",
+        "rating": 1
     }, {
-        "ProjectID": 5,
-        "Name": "XYZ",
-        "Rating": 1
+        "projectId": 5,
+        "name": "XYZ",
+        "rating": 1
     }]

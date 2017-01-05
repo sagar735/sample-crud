@@ -1,7 +1,7 @@
  [{
-        "ProjectID": 1,
-        "Name": "ABC",
-        "Rating": 1,
-        "Team":"Kumar Harshal Saurabh Charu Sagar",
-        "Details":"This is sample project"
+        "projectId": 1,
+        "name": "ABC",
+        "rating": 1,
+        "team":"Kumar Harshal Saurabh Charu Sagar",
+        "details":"This is sample project"
     }]

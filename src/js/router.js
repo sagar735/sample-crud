@@ -12,12 +12,13 @@ function addHash(path) {
 }
 
 function removeHash() {
-
+    
     window.location.hash = window.location.hash.split('#')[0];
     window.location.hash = '/dashboard';
 }
 
 export function goToProjectDetails($buttonName) {
+
     window.location.href = 'http://localhost:8080/#/details/' + $buttonName;
 }
 export function goToError() {
@@ -36,6 +37,7 @@ export function gotToDashboard() {
 export function listen(callback) {
     var current = getCurrentState();
     var currentStatus;
+
     if (current === '/add') {
         currentStatus = 'two';
     } else if (current === '/dashboard') {
@@ -64,7 +66,6 @@ export function listen(callback) {
         goToError();
     }
     return currentStatus;
-    setTimeout(listen, 2000);
-};
+    setTimeout(listen, 20);
 
-
+}

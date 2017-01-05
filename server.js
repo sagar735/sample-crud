@@ -41,9 +41,9 @@ server.register(require('inert'), (err) => {
     });
     server.route({
         method: 'GET',
-        path: '/js/jquery.js',
+        path: '/js/jquery/jquery.js',
         handler: (request, reply) => {
-            reply.file('./src/js/jquery1.js');
+            reply.file('./src/js/jquery/jquery1.js');
         }
     });
     server.route({
@@ -51,6 +51,13 @@ server.register(require('inert'), (err) => {
         path: '/projectList',
         handler: (request, reply) => {
             reply.file('projectList.json');
+        }
+    });
+    server.route({
+        method: 'GET',
+        path: '/image/loading.gif',
+        handler: (request, reply) => {
+            reply.file('./src/image/loading.gif');
         }
     });
     

@@ -1,7 +1,7 @@
  [{
-        "ProjectID": 4,
-        "Name": "KLM",
-        "Rating": 2,
-        "Team":"Kumar Harshal Saurabh Charu Sagar",
-        "Details":"This is fourth sample project"
+        "projectId": 4,
+        "name": "KLM",
+        "rating": 2,
+        "team":"Kumar Harshal Saurabh Charu Sagar",
+        "details":"This is fourth sample project"
     }]

@@ -1,131 +1,161 @@
- import * as data from './index2.js';
- import * as view from './view.js';
- import * as route from './router.js';
- 
+import {
+    Project
+} from './project-entity.js';
+import * as view from './view.js';
+import * as route from './router.js';
+import * as data from './data.js';
 
- $(function () {
-     var $quickAdd = $('#quickAdd');
-     var $projectNameInput = $('#projectNameInput');
-     var $projectListBox = $('#projectListBox');
-     var jsonProjectlist = data.jsondata;
-     var jsondata1 = data.jsonFiles();
+$(fireOnReady);
 
-     var currentStatus = route.listen(callback);
+function fireOnReady() {
 
-     function callback() {
-         data.jsonFiles();
-         view.appendPojectDetails(jsondata1);
-     }
+    let dashboardNodes = {
+        '$quickAdd': $('#quickAdd'),
+        '$projectNameInput': $('#projectNameInput'),
+        '$projectListBox': $('#projectListBox'),
+        '$add': $('#add'),
 
-     if (currentStatus === 'one') {
-         view.showPartOne();
-     } else if (currentStatus === 'two') {
-         view.showPartTwo();
-     } else if (currentStatus === 'three') {
-         view.showPartThree();
-     } else if (currentStatus === 'error') {
+    }
+    let currentStatus = route.listen(callback);
 
-         view.showPartFour();
-     }
+    function callback() {
+        let currentHref = window.location.href.split('/')[4];
+        let projectId = window.location.href.split('/')[5];
 
-     //------------------------------------------Getting project list and Dashboard page-------------------------
-     view.appendList(jsonProjectlist)
-         // --------------------------------------delete functionality-----------------------------------------------
+        if (currentHref === 'details') {
+            data.getProjectDetails(projectId)
+                .then(function (content) {
+                    view.appendProjectDetails(content);
+                });
+        }
+    }
 
-     $($projectListBox).on('click', '.checkbox', checkboxStatus)
+    if (currentStatus === 'one') {
+        view.goToDashboard();
+    } else if (currentStatus === 'two') {
+        view.goToAddPage();
+    } else if (currentStatus === 'three') {
+        view.goToProjectDetailsPage();
+    } else if (currentStatus === 'error') {
+        view.goToErrorPage();
+    }
+    //------------------------------------------Getting project list and Dashboard page-------------------------
+    data.getAllProjects()
+        .then(function (content) {
+            view.appendList(content);
+        });
 
-     function checkboxStatus() {
-         if ($('.checkbox').is(':checked') === true) {
-             view.showDelete();
-         } else if ($('.checkbox').is(':checked') === false) {
-             view.hideDelete();
-         }
-     }
-     //------------------------------------------------------when delete is clicked--------------------------------
-     var $delete = $('#delete');
-     $delete.on('click', () => {
-         var $checkbox = $('.checkbox');
-         $($checkbox).each(function () {
-             if (this.checked === true) {
-                 var b = $(this).parent()
-                 var c = $('li').index(b)
-                 jsonProjectlist.splice(c, 1);
-                 view.hideDelete();
-                 view.appendList(jsonProjectlist);
-             }
-         });
-     });
+    // --------------------------------------delete functionality-----------------------------------------------
 
-     //-------------------------------------------- when click on project Details------------------------------------
+    $(dashboardNodes.$projectListBox).on('click', '.checkbox', checkboxStatus);
 
-     $($projectListBox).on('click', '.button1', projectDetails);
+    function checkboxStatus() {
+        if ($('.checkbox').is(':checked') === true) {
+            view.showDelete();
+        } else if ($('.checkbox').is(':checked') === false) {
+            view.hideDelete();
+        }
+    }
+    //------------------------------------------------------when delete is clicked--------------------------------
+ let $delete = $('#delete');
+    $delete.on('click', () => {
+        let $checkbox = $('.checkbox');
+        $($checkbox).each(function () {
+            if (this.checked === true) {
+                var id = $(this).parent().attr('id');
+                data.removeProject(id)
+                    .then(function (content) {
+                        view.hideDelete();
+                        view.appendList(content);
+                    });
+            }
+        });
+    });
 
-     function projectDetails() {
-         var $buttonName = $(this).attr('id');
-         goToPageDetails($buttonName);
-     }
+    //-------------------------------------------- when click on project Details------------------------------------
 
-     function goToPageDetails(buttonName) {
-         view.showPartThree();
-         route.goToProjectDetails(buttonName);
-         view.appendPojectDetails(data.jsonFiles())
-     }
-     //---------------------------------------------------project detail page-------------------------------------------
-     var $back = $('#backToHomePage');
+    $(dashboardNodes.$projectListBox).on('click', '.button1', projectDetails);
 
-     $($back).on('click', goToHomePage)
+    function projectDetails() {
+        let $buttonName = $(this).attr('id');
+        goToPageDetails($buttonName);
+    }
 
-     function goToHomePage() {
-         showPageOne();
-     }
-     //---------------------------------------------quick add project---------------------------------------------------- 
-     $quickAdd.on('click', function () {
-         var project = {
-             ProjectID: undefined,
-             Name: $projectNameInput.val(),
-             Rating: undefined
-         };
-         jsonProjectlist.push(project);
-         view.appendList(jsonProjectlist);
-     });
-     //-----------------------------------when add button is clicked------------------------------------------------------
+    function goToPageDetails(buttonName) {
+        route.goToProjectDetails(buttonName);
+        view.goToProjectDetailsPage();
+        view.emptyProjectDetailBox();
+        view.showLoading();
 
-     var $add = $('#add');
+        data.getProjectDetails(buttonName)
+            .then(function (content) {
+                view.hideLoading();
+                view.appendProjectDetails(content);
+            });
+    }
+    //---------------------------------------------------project detail page-------------------------------------------
+    var $back = $('#backToHomePage');
 
-     $add.on('click', showPageTwo);
+    $($back).on('click', goToHomePage);
 
-     function showPageTwo() {
-         view.showPartTwo();
-         route.goToAdd();
-     }
+    function goToHomePage() {
+        showDashboardPage();
+    }
+    //---------------------------------------------quick add project---------------------------------------------------- 
+    dashboardNodes.$quickAdd.on('click', function () {
+        let name = dashboardNodes.$projectNameInput.val();
+        let project = new Project(10, name, 5);
 
-     function showPageOne() {
-         view.showPartOne();
-         route.gotToDashboard();
-     }
-     //--------------------------------------------------add button page----------------------------------------------------
-     var $projectId = $('#ProjectId');
-     var $projectName = $('#ProjectName');
-     var $rating = $('#Rating');
-     var $createbtn = $('#createbtn');
-     var $cancelbtn = $('#cancelbtn');
+        if (project.name === "") {
+            alert('Please Enter the name of the Project');
+        } else {
+            data.addProject(project)
+                .then(function (content) {
+                    view.appendList(content);
+                    dashboardNodes.$projectNameInput.val('');
+                });
+        }
+    });
+    //-----------------------------------when add button is clicked------------------------------------------------------
+    dashboardNodes.$add.on('click', showAddPage);
 
-     $createbtn.on('click', () => {
+    function showAddPage() {
+        view.goToAddPage();
+        route.goToAdd();
+    }
 
-         var newProject = {
-             ProjectID: $projectId.val(),
-             Name: $projectName.val(),
-             Rating: $rating.val()
-         };
-         jsonProjectlist.push(newProject);
-         view.appendList(jsonProjectlist);
-         alert('project created successfully ');
-         showPageOne();
-     });
+    function showDashboardPage() {
+        view.goToDashboard();
+        route.gotToDashboard();
+    }
+    //--------------------------------------------------add button page----------------------------------------------------
+    let addPageNodes = {
+        '$projectId': $('#ProjectId'),
+        '$projectName': $('#ProjectName'),
+        '$rating': $('#Rating'),
+        '$createbtn': $('#createbtn'),
+        '$cancelbtn': $('#cancelbtn'),
+    };
+    addPageNodes.$createbtn.on('click', () => {
+        let projectId = addPageNodes.$projectId.val();
+        let name = addPageNodes.$projectName.val();
+        let rating = addPageNodes.$rating.val();
+        let newProject = new Project(projectId, name, rating);
 
-     $cancelbtn.on('click', showPageOne);
-     //-------------------------------------------------Error Page---------------------------------------------------------
-     var $homePage = $('#homePage');
-     $homePage.on('click', showPageOne);
+        if (newProject.projectId === '') {
+            alert('Project Id can not be NULL');
+        } else {
+            data.addProject(newProject)
+                .then(function (content) {
+                    view.appendList(content);
+                    alert('Project created successfully');
+                    showDashboardPage();
+                });
+        }
+    });
+    addPageNodes.$cancelbtn.on('click', showDashboardPage);
+    //-------------------------------------------------Error Page---------------------------------------------------------
+    var $homePage = $('#homePage');
+    $homePage.on('click', showDashboardPage);
 
- });
+}

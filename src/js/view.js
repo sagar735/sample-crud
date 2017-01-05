@@ -8,23 +8,25 @@
      $projectList.empty();
 
      $.each(data, function (i, project) {
-         $projectList.append('<li><input type=\'checkbox\' class=\'checkbox \' >Project ID: ' + project.ProjectID + ', Project Name: ' + project.Name +
-             ', Rating: ' + project.Rating + '<button class=\'button1\' id="' + project.ProjectID + '">Details </button>' + '</li>');
+         $projectList.append('<li id='+project.projectId+'><input type=\'checkbox\' class=\'checkbox \' >Project ID: ' + project.projectId + ', Project Name: ' + project.name +
+             ', Rating: ' + project.rating + '<button class=\'button1\' id="' + project.projectId + '">Details </button>' + '</li>');
 
      });
  }
 
- export function appendPojectDetails(data) {
+ export function appendProjectDetails(data) {
      $.each(data, function (i, project) {
          $projectDetails.empty();
-         $projectDetails.append('<h3>Project Name: ' + project.Name + '</h3>');
-         $projectDetails.append('<h3>Project ID: ' + project.ProjectID + '</h3>');
-         $projectDetails.append('<h3>Project Rating: ' + project.Rating + '</h3>');
-         $projectDetails.append('<h3>Project Team: ' + project.Team + '</h3>');
-         $projectDetails.append('<h3>Project Details: ' + project.Details + '</h3>');
+         $projectDetails.append('<h3>Project Name: ' + project.name + '</h3>');
+         $projectDetails.append('<h3>Project ID: ' + project.projectId + '</h3>');
+         $projectDetails.append('<h3>Project Rating: ' + project.rating + '</h3>');
+         $projectDetails.append('<h3>Project Team: ' + project.team + '</h3>');
+         $projectDetails.append('<h3>Project Details: ' + project.details + '</h3>');
 
      });
-
+ }
+ export function emptyProjectDetailBox() {
+     $projectDetails.empty();
  }
  export function showDelete() {
      $add.hide(300);
@@ -39,31 +41,42 @@
 
  }
 
- export function showPartTwo() {
+ export function goToAddPage() {
      $('.page1').hide();
      $('.page2').show();
      $('.page3').hide();
      $('.page4').hide();
-
  }
 
- export function showPartOne() {
+ export function goToDashboard() {
      $('.page2').hide();
      $('.page1').show();
      $('.page3').hide();
      $('.page4').hide();
-
  }
 
- export function showPartThree() {
+ export function goToProjectDetailsPage() {
      $('.page1').hide();
      $('.page2').hide();
      $('.page3').show();
  }
 
- export function showPartFour() {
+ export function goToErrorPage() {
      $('.page1').hide();
      $('.page2').hide();
      $('.page3').hide();
      $('.page4').show();
+ }
+
+ export function showLoading() {
+     $('.page1').hide();
+     $('.page2').hide();
+     $('.page3').hide();
+     $('.page4').hide();
+     $('.page5').hide();
+     $('#loading').show();
+ }
+ export function hideLoading() {
+     $('#loading').hide();
+     goToProjectDetailsPage();
  }
