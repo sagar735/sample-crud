@@ -1,5 +1,5 @@
 const Hapi = require('hapi');
-const jquery = require('jquery');
+
 
 const server = new Hapi.Server();
 server.connection({
@@ -41,9 +41,16 @@ server.register(require('inert'), (err) => {
     });
     server.route({
         method: 'GET',
-        path: '/js/jquery/jquery.js',
+        path: '/project-list',
         handler: (request, reply) => {
-            reply.file('./src/js/jquery/jquery1.js');
+            reply.file('./src/project-list-template.html');
+        }
+    });
+    server.route({
+        method: 'GET',
+        path: '/project-detail',
+        handler: (request, reply) => {
+            reply.file('./src/project-detail-template.html');
         }
     });
     server.route({
@@ -60,33 +67,33 @@ server.register(require('inert'), (err) => {
             reply.file('./src/image/loading.gif');
         }
     });
-    
+
     server.route({
-    method: 'GET',
-    path: '/details/{projectId}',
-    handler: (request, reply) => {
-       if (request.params.projectId === '1') {
-            reply.file('./src/jsonFiles/project1.json');
-        } else if (request.params.projectId === '2') {
-            reply.file('./src/jsonFiles/project2.json');
-        } else if (request.params.projectId === '3') {
-            reply.file('./src/jsonFiles/project3.json');
-        } else if (request.params.projectId === '4') {
-            reply.file('./src/jsonFiles/project4.json');
-        } else if (request.params.projectId === '5') {
-            reply.file('./src/jsonFiles/project5.json');
-        }else{
+        method: 'GET',
+        path: '/details/{projectId}',
+        handler: (request, reply) => {
+            if (request.params.projectId === '1') {
+                reply.file('./src/jsonFiles/project1.json');
+            } else if (request.params.projectId === '2') {
+                reply.file('./src/jsonFiles/project2.json');
+            } else if (request.params.projectId === '3') {
+                reply.file('./src/jsonFiles/project3.json');
+            } else if (request.params.projectId === '4') {
+                reply.file('./src/jsonFiles/project4.json');
+            } else if (request.params.projectId === '5') {
+                reply.file('./src/jsonFiles/project5.json');
+            } else {
+                reply.file('./src/jsonFiles/error.json');
+            }
+        }
+    });
+    server.route({
+        method: '*',
+        path: '/{p*}',
+        handler: function (request, reply) {
             reply.file('./src/jsonFiles/error.json');
         }
-    }
-});
-server.route({
-    method: '*',
-    path: '/{p*}', // catch-all path
-    handler: function (request, reply) {
-        reply.file('./src/jsonFiles/error.json');
-    }
-});
+    });
 });
 
 
@@ -96,5 +103,5 @@ server.start((err) => {
     if (err) {
         throw err;
     }
-    console.log('server running at ' + server.info.uri)
-})
+    console.log('server running at ' + server.info.uri);
+});

@@ -1,9 +1,14 @@
+import $ from 'jquery';
 import {
     Project
 } from './project-entity.js';
+import {
+    State
+} from './state-entity.js';
 import * as view from './view.js';
 import * as route from './router.js';
 import * as data from './data.js';
+window.$ = $;
 
 $(fireOnReady);
 
@@ -13,9 +18,9 @@ function fireOnReady() {
         '$quickAdd': $('#quickAdd'),
         '$projectNameInput': $('#projectNameInput'),
         '$projectListBox': $('#projectListBox'),
-        '$add': $('#add'),
+        '$add': $('#add')
+    };
 
-    }
     let currentStatus = route.listen(callback);
 
     function callback() {
@@ -26,6 +31,8 @@ function fireOnReady() {
             data.getProjectDetails(projectId)
                 .then(function (content) {
                     view.appendProjectDetails(content);
+                }, function () {
+                    throw Error;
                 });
         }
     }
@@ -43,6 +50,8 @@ function fireOnReady() {
     data.getAllProjects()
         .then(function (content) {
             view.appendList(content);
+        }, function () {
+            throw Error;
         });
 
     // --------------------------------------delete functionality-----------------------------------------------
@@ -57,7 +66,7 @@ function fireOnReady() {
         }
     }
     //------------------------------------------------------when delete is clicked--------------------------------
- let $delete = $('#delete');
+    let $delete = $('#delete');
     $delete.on('click', () => {
         let $checkbox = $('.checkbox');
         $($checkbox).each(function () {
@@ -67,10 +76,35 @@ function fireOnReady() {
                     .then(function (content) {
                         view.hideDelete();
                         view.appendList(content);
+                    }, function () {
+                        throw Error;
                     });
             }
         });
     });
+
+
+    // $delete.on('click', () => {
+    //     let $checkbox = $('.checkbox');
+
+    //     $checkbox.forEach(function () {
+    //         if (this.checked === true) {
+    //             var id = $(this).parent().attr('id');
+    //             data.removeProject(id)
+    //                 .then(function (content) {
+    //                     view.hideDelete();
+    //                     view.appendList(content);
+    //                 }, function () {
+    //                     throw Error;
+    //                 });
+    //         }
+    //     });
+    // });
+
+
+
+
+
 
     //-------------------------------------------- when click on project Details------------------------------------
 
@@ -78,11 +112,25 @@ function fireOnReady() {
 
     function projectDetails() {
         let $buttonName = $(this).attr('id');
+
+        // var stateProjectDetails = new State('project-details', '/details');
+        // route.addState(stateProjectDetails);
+
         goToPageDetails($buttonName);
     }
 
     function goToPageDetails(buttonName) {
-        route.goToProjectDetails(buttonName);
+        var stateProjectDetails = new State('project-details', '/details/{id}', controller);
+        route.addState(stateProjectDetails);
+        route.goToState('project-details', {
+            id: buttonName
+        }, controller);
+
+        function controller() {
+            // console.log('hello there');
+        }
+
+        // route.goToProjectDetails(buttonName);
         view.goToProjectDetailsPage();
         view.emptyProjectDetailBox();
         view.showLoading();
@@ -91,6 +139,8 @@ function fireOnReady() {
             .then(function (content) {
                 view.hideLoading();
                 view.appendProjectDetails(content);
+            }, function () {
+                throw Error;
             });
     }
     //---------------------------------------------------project detail page-------------------------------------------
@@ -100,19 +150,22 @@ function fireOnReady() {
 
     function goToHomePage() {
         showDashboardPage();
+        //route.goToState('dashboard');
     }
     //---------------------------------------------quick add project---------------------------------------------------- 
     dashboardNodes.$quickAdd.on('click', function () {
         let name = dashboardNodes.$projectNameInput.val();
         let project = new Project(10, name, 5);
 
-        if (project.name === "") {
+        if (project.name === '') {
             alert('Please Enter the name of the Project');
         } else {
             data.addProject(project)
                 .then(function (content) {
                     view.appendList(content);
                     dashboardNodes.$projectNameInput.val('');
+                }, function () {
+                    throw Error;
                 });
         }
     });
@@ -122,11 +175,18 @@ function fireOnReady() {
     function showAddPage() {
         view.goToAddPage();
         route.goToAdd();
+
+        // var stateAddPage = new State('add', '/add');
+        // route.addState(stateAddPage);
+        // route.goToState('add');
+
     }
 
     function showDashboardPage() {
         view.goToDashboard();
         route.gotToDashboard();
+        //route.goToState('dashboard');
+
     }
     //--------------------------------------------------add button page----------------------------------------------------
     let addPageNodes = {
@@ -150,6 +210,8 @@ function fireOnReady() {
                     view.appendList(content);
                     alert('Project created successfully');
                     showDashboardPage();
+                }, function () {
+                    throw Error;
                 });
         }
     });

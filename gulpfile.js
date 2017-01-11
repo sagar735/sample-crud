@@ -11,13 +11,13 @@ const eslint=require('gulp-eslint');
 
 gulp.task('sample', () => {
     browserify('src/js/index.js')
-        .transform('babelify', {
+        .transform(babelify, {
             presets: ['es2015']
         })
         .bundle()
         .pipe(source('index.js'))
         .pipe(buffer())
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(gulp.dest('dest/js/'));
 }); 
 
@@ -25,9 +25,9 @@ gulp.task('sample', () => {
 gulp.task('lint', () => {
     return gulp.src('src/js/*.js')
         .pipe(eslint())
-        .pipe(eslint.format())
+        .pipe(eslint.format());
 
 });
 gulp.task('default', ['sample','lint'], () => {
-    gulp.watch('src/js/*.js', ['lint','sample'])
+    gulp.watch('src/js/*.js', ['sample','lint']);
 });

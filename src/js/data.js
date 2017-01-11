@@ -1,45 +1,51 @@
+// import $ from 'jquery';
 import * as facade from './ajax-facade.js';
-import {Project} from './project-entity.js';
+import {
+    Project
+} from './project-entity.js';
 
 var projectList;
 
-export  function getAllProjects(){
-        if(projectList===undefined){
-            return new Promise(function (resolve,reject){
-                facade.getAllProjects(function(_projectList){
-                    projectList=_projectList;
-                    resolve(_projectList);
-                });
+export function getAllProjects() {
+    return new Promise(function (resolve) {
+        if (projectList === undefined) {
+            facade.getAllProjects(function (_projectList) {
+                projectList = _projectList;
+                resolve(_projectList);
+            },function(){
+                throw Error;
             });
+        } else {
+            return resolve(projectList);
         }
-        else{
-            return projectList;
-        }
+    });
 }
+
 export function getProjectDetails(projectId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         facade.getProjectById(projectId, function (projectData) {
             resolve(projectData);
+        },function(){
+            throw Error;
         });
     });
 }
 
 export function addProject(project) {
     if (project instanceof Project) {
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             projectList.push(project);
             resolve(projectList);
         });
     } else {
-        throw errormessage();
+        throw Error;
     }
 }
-function errormessage() {
-    alert('Invalid Data Format');
-}
+
+
 
 export function removeProject(projectId) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
         var _newList = projectList.filter(item => parseInt(item.projectId) === parseInt(projectId));
         if (_newList.length === 1) {
             var projectToDelete = _newList[0];

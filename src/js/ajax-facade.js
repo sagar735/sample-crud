@@ -1,4 +1,5 @@
-export function getAllProjects(callback) {
+import $ from 'jquery';
+export function getAllProjects(callback, callbackError) {
     $.ajax({
         type: 'GET',
         url: '/projectList',
@@ -6,16 +7,16 @@ export function getAllProjects(callback) {
         success: function (data) {
             setTimeout(function () {
                 callback(data);
-            }, 100);
+            }, 10);
         },
         error: function () {
-            alert('error in loading the data');
+            callbackError();
         }
 
     });
 }
 
-export function getProjectById(id, callback) {
+export function getProjectById(id, callback, callbackError) {
     $.ajax({
         type: 'GET',
         url: '/details/' + id,
@@ -23,10 +24,10 @@ export function getProjectById(id, callback) {
         success: function (data) {
             setTimeout(function () {
                 callback(data);
-            }, 1000);
+            }, 10);
         },
         error: function () {
-            alert('error in loading the data');
+            callbackError();
         }
     });
 }
