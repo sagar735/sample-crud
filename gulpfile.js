@@ -29,5 +29,5 @@ gulp.task('lint', () => {
 
 });
 gulp.task('default', ['sample','lint'], () => {
-    gulp.watch('src/js/*.js', ['sample','lint']);
+    gulp.watch('src/js/**/*.js', ['sample','lint']);
 });

@@ -1,4 +1,5 @@
 import $ from 'jquery';
+
 export function getAllProjects(callback, callbackError) {
     $.ajax({
         type: 'GET',
@@ -22,9 +23,7 @@ export function getProjectById(id, callback, callbackError) {
         url: '/details/' + id,
         dataType: 'json',
         success: function (data) {
-            setTimeout(function () {
-                callback(data);
-            }, 10);
+            callback(data);
         },
         error: function () {
             callbackError();

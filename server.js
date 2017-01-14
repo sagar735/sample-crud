@@ -18,13 +18,38 @@ server.register(require('inert'), (err) => {
             reply.file('./src/index.html');
         }
     });
+
+    server.route({
+        method: 'GET',
+        path: '/modules/project-detail/projectDetail.html',
+        handler: (request, reply) => {
+            reply.file('./src/js/modules/project-detail/projectDetail.html');
+        }
+    });
+    
+    server.route({
+        method: 'GET',
+        path: '/modules/project-add/addPage.html',
+        handler: (request, reply) => {
+            reply.file('./src/js/modules/project-add/addPage.html');
+        }
+    });
+    
+    server.route({
+        method: 'GET',
+        path: '/modules/dashboard/dashboard.html',
+        handler: (request, reply) => {
+            reply.file('./src/js/modules/dashboard/dashboard.html');
+        }
+    });
     server.route({
         method: 'GET',
         path: '/dashboard',
         handler: (request, reply) => {
-            reply.file('./src/index.html');
+            reply.file('./src/js/index.html');
         }
     });
+
     server.route({
         method: 'GET',
         path: '/css/index.css',

@@ -1,19 +1,19 @@
 import $ from 'jquery';
 import * as handle from './template.js';
-window.$=$;
-var $projectList = $('#projectList');
-var $add = $('#add');
-var $delete = $('#delete');
-var $quickAdd = $('#quickAdd');
-var $projectDetails = $('#projectDetails');
+// var $projectList = $('#projectList');
+// var $add = $('#add');
+// var $delete = $('#delete');
+// var $quickAdd = $('#quickAdd');
+// var $projectDetails = $('#projectDetails');
+window.$ = $;
 
-export function appendList(data) {
-    $projectList.empty();
+export function appendList(node, data) {
     handle.getProject('project-list')
         .then(function (content) {
+            node.empty();
             data.forEach(function (project) {
                 let projectData = content(project);
-                $projectList.append(projectData);
+                node.append(projectData);
             });
         }, function () {
             throw Error;
@@ -21,11 +21,11 @@ export function appendList(data) {
 }
 
 
-export function appendProjectDetails(data) {
+export function appendProjectDetails(node, data) {
     handle.getProject('project-detail').then(function (content) {
         data.forEach(function (project) {
             let projectData = content(project);
-            $projectDetails.append(projectData);
+            node.append(projectData);
         });
     }, function () {
         throw Error;
@@ -34,16 +34,23 @@ export function appendProjectDetails(data) {
 
 
 export function emptyProjectDetailBox() {
-    $projectDetails.empty();
+    // $projectDetails.empty();
 }
 
 export function showDelete() {
+    var $add = $('#add');
+    var $delete = $('#delete');
+    var $quickAdd = $('#quickAdd');
     $add.hide(300);
     $quickAdd.hide(300);
     $delete.show(350);
 }
 
 export function hideDelete() {
+
+    var $add = $('#add');
+    var $delete = $('#delete');
+    var $quickAdd = $('#quickAdd');
     $delete.hide(300);
     $add.show(350);
     $quickAdd.show(350);
