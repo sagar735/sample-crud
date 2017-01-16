@@ -8,11 +8,11 @@ export function projectDetailController() {
     const projectDetails = $('#projectDetails');
 
     $($back).on('click', () => route.goToState('dashboard'));
-    // route.getStateParams() --->  {id: 5} /details/{id} /details/5
-   // route.getStateParams();
-    data.getProjectDetails(2)
+    const params = route.getStateParams();
+    const projectId=params.id;
+    data.getProjectDetails(projectId)
         .then(function (projectData) {
-            view.appendProjectDetails(projectDetails,projectData);
+            view.appendProjectDetails(projectDetails, projectData);
         }).catch(function () {
             throw Error;
         });

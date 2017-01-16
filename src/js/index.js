@@ -24,7 +24,7 @@ $(fireOnReady);
 
 function fireOnReady() {
 
-  
+
     route.setMountElement($('.main-container').get(0));
 
     const stateProjectDetails = new State('project-details', '/details/{id}', '../modules/project-detail/project-detail.html', projectDetailController);
@@ -36,8 +36,8 @@ function fireOnReady() {
     route.addState(stateDashboard);
     route.addState(stateError);
     route.goToState('dashboard');
-
-    // let currentStatus = route.listen(callback);
+  
+      // let currentStatus = route.listen(callback);
 
     // function callback() {
     //     let currentHref = window.location.href.split('/')[4];
@@ -62,5 +62,5 @@ function fireOnReady() {
     // } else if (currentStatus === 'error') {
     //     view.goToErrorPage();
     // }
- 
+
 }
