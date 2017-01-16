@@ -21,32 +21,47 @@ server.register(require('inert'), (err) => {
 
     server.route({
         method: 'GET',
-        path: '/modules/project-detail/projectDetail.html',
+        path: '/modules/project-detail/project-detail.html',
         handler: (request, reply) => {
-            reply.file('./src/js/modules/project-detail/projectDetail.html');
+            reply.file('./src/modules/project-detail/project-detail.html');
         }
     });
     
+    server.route({
+        method: 'GET',
+        path: '/project-detail',
+        handler: (request, reply) => {
+            reply.file('./src/modules/project-detail/project-detail-template.html');
+        }
+    });
     server.route({
         method: 'GET',
         path: '/modules/project-add/addPage.html',
         handler: (request, reply) => {
-            reply.file('./src/js/modules/project-add/addPage.html');
+            reply.file('./src/modules/project-add/addPage.html');
         }
     });
-    
+
+
     server.route({
         method: 'GET',
         path: '/modules/dashboard/dashboard.html',
         handler: (request, reply) => {
-            reply.file('./src/js/modules/dashboard/dashboard.html');
+            reply.file('./src/modules/dashboard/dashboard.html');
+        }
+    });
+    server.route({
+        method: 'GET',
+        path: '/modules/error/errorPage.html',
+        handler: (request, reply) => {
+            reply.file('./src/modules/error/errorPage.html');
         }
     });
     server.route({
         method: 'GET',
         path: '/dashboard',
         handler: (request, reply) => {
-            reply.file('./src/js/index.html');
+            reply.file('./src/index.html');
         }
     });
 
@@ -68,14 +83,15 @@ server.register(require('inert'), (err) => {
         method: 'GET',
         path: '/project-list',
         handler: (request, reply) => {
-            reply.file('./src/project-list-template.html');
+            reply.file('./src/modules/dashboard/project-list-template.html');
         }
     });
+
     server.route({
         method: 'GET',
-        path: '/project-detail',
+        path: '/modules/project-detail/project-detail-template.html',
         handler: (request, reply) => {
-            reply.file('./src/project-detail-template.html');
+            reply.file('./src/modules/project-detail/project-detail-template.html');
         }
     });
     server.route({

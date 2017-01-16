@@ -1,6 +1,6 @@
-import * as view from '../../view';
-import * as route from '../../router';
-import * as data from '../../data';
+import * as view from '../../services/view';
+import * as route from '../../framework/router';
+import * as data from '../../services/data';
 
 
 export function projectDetailController() {
@@ -9,8 +9,8 @@ export function projectDetailController() {
 
     $($back).on('click', () => route.goToState('dashboard'));
     // route.getStateParams() --->  {id: 5} /details/{id} /details/5
-    route.getStateParams();
-    data.getProjectDetails()
+   // route.getStateParams();
+    data.getProjectDetails(2)
         .then(function (projectData) {
             view.appendProjectDetails(projectDetails,projectData);
         }).catch(function () {

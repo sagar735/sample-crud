@@ -1,6 +1,6 @@
-import * as view from '../../view';
-import * as route from '../../router';
-import * as data from '../../data';
+import * as view from '../../services/view';
+import * as route from '../../framework/router';
+import * as data from '../../services/data';
 import {
     Project
 } from '../../entities/project-entity';
